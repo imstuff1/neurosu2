@@ -1,6 +1,6 @@
 # Neurosu: Neuro Punch Revolution!
 
-imstuff1.github.io/neurosu
+imstuff1.github.io/neurosu2
 
 ## Credits
 
