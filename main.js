@@ -40,7 +40,7 @@ let campaignBeatmaps = [];
 
 let audioElements = {};
 let upArrow, downArrow, leftArrow, rightArrow, upArrowOutline, downArrowOutline, leftArrowOutline, rightArrowOutline;
-let neuro, neuroMiss;
+let neuro, neuroMiss, oldNeuro, oldNeuroMiss, newNeuro, newNeuroMiss, hiyori, hiyoriMiss;
 
 let animationArray = [];
 
@@ -54,8 +54,12 @@ async function preload() {
   downArrowOutline = loadImage('./assets/arrows/down-outline.png');
   leftArrowOutline = loadImage('./assets/arrows/left-outline.png');
   rightArrowOutline = loadImage('./assets/arrows/right-outline.png');
-  neuro = loadImage('./assets/neuro/neuro.png');
-  neuroMiss = loadImage('./assets/neuro/neuromiss.png');
+  hiyori = loadImage('./assets/newneuro/hiyori1.png');
+  hiyoriMiss = loadImage('./assets/newneuro/hiyori2.png');
+  oldNeuro = loadImage('./assets/newneuro/neuro 3-6.png.png');
+  oldNeuroMiss = loadImage('./assets/newneuro/neuro 3-8.png.png');
+  newNeuro = loadImage('./assets/newneuro/neuro 3-4.png.png');
+  newNeuroMiss = loadImage('./assets/newneuro/neuro 3-10.png.png');
   ddr = loadImage('./assets/ddr/ddr.png');
   ddrUp = loadImage('./assets/ddr/ddr-up.png');
   ddrDown = loadImage('./assets/ddr/ddr-down.png');
@@ -208,7 +212,7 @@ function mouseClicked() {
     });
     audioElements['hit'] = $('<audio>', {
       controls: false,
-      src: './assets/hit.mp3',
+      src: './assets/hit2.mp3',
       type: 'audio/mp3',
     });
     audioElements['song1'] = $('<audio>', {
@@ -451,7 +455,7 @@ function stopAllAudio() {
 function triggerHit() {
   hits++;
   console.log('HIT');
-  playAudio('hit');
+  // playAudio('hit');
   visibleHitObjects.shift();
   neuroMissSprite = false;
   if (missHealth < maxMisses) {
@@ -591,6 +595,20 @@ function play() {
     hits = 0;
     misses = 0;
     visibleHitObjects = [];
+    hitObjectIndex = 1;
+    switch (levelIndex) {
+      case 0:
+        neuro = hiyori;
+        neuroMiss = hiyoriMiss;
+        break;
+      case 1:
+        neuro = oldNeuro;
+        neuroMiss = oldNeuroMiss;
+        break;
+      case 2:
+        neuro = newNeuro;
+        neuroMiss = newNeuroMiss;
+    }
     setTimeout(function () {
       audioElements['song' + (levelIndex + 1)][0].play();
     }, bufferTime + campaignOffsets[levelIndex]);
@@ -640,7 +658,7 @@ function play() {
   textAlign(RIGHT, TOP);
   accuracy = (hits / (hits + misses)) * 100;
   formattedAccuracy = accuracy.toFixed(2) + '%';
-  text(misses + 'miss ' + (hits + misses > 0 ? accuracy.toFixed(2) : '100.00') + '%', playfieldWidth, playfieldY);
+  text(misses + ' misses ' + (hits + misses > 0 ? accuracy.toFixed(2) : '100.00') + '%', playfieldWidth, playfieldY);
 
   //DDR Side
 
